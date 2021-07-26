@@ -1,6 +1,7 @@
 <?php
 return [
     // 共通(画面)
+    'home' => 'ホーム',
     'index' => '一覧',
     'create' => '新規追加',
     'show' => '詳細',
@@ -14,9 +15,11 @@ return [
     'email' =>'メールアドレス',
     'password' =>'パスワード',
     'password_confirmation' =>'パスワード(確認)',
-    'name' => '名前',
+    'name' => 'タイトル',
     'detail' => '詳細',
     'due_date' => '日付',
+    'is_important' => '重要',
+    'is_completed' => 'ステータス',
     'user' => 'ユーザー',
     'task' => 'タスク',
     'group' => 'グループ',
