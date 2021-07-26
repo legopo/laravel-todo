@@ -8,7 +8,7 @@ use App\Http\Controllers\UserController;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [TaskController::class, 'index']);
-  
+
     // User
     Route::resource('/users', UserController::class)
         ->only([
