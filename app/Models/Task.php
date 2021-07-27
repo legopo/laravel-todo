@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Kyslik\ColumnSortable\Sortable;
 
 class Task extends Model
 {
     use HasFactory;
+    use Sortable;
 
     /**
      * 指定テーブル
@@ -30,6 +32,27 @@ class Task extends Model
     ];
 
     /**
+     * キャストする必要のある属性
+     *
+     * @var array
+     */
+    protected $casts = [
+        'due_date' => 'date:Y-m-d',
+    ];
+
+    /**
+     * ソート可能カラム
+     *
+     * @var array
+     */
+    public $sortable = [
+        'name',
+        'due_date',
+        'is_important',
+        'is_completed',
+    ];
+
+    /**
      * グループリレーション
      *
      * @return object
@@ -47,5 +70,27 @@ class Task extends Model
     public function taskTags(): object
     {
         return $this->belongsToMany(Tag::class, 'task_tags')->withTimestamps();
+    }
+
+    /**
+     * is_importantの表示用設定
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function getIsImportantDispAttribute($value)
+    {
+        return $this->is_important === 1 ? '☆' : '';
+    }
+
+    /**
+     * is_importantの表示用設定
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function getIsCompletedDispAttribute($value)
+    {
+        return $this->is_completed === 1 ? '完了' : '未完了';
     }
 }

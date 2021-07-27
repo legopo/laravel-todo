@@ -3,18 +3,59 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\Group;
 use Illuminate\Http\Request;
+use App\Services\TaskService;
 
 class TaskController extends Controller
 {
+    private $taskService;
+    private $group;
+
+    public function __construct(
+        TaskService $taskService,
+        Group $group,
+    ) {
+        $this->taskService = $taskService;
+        $this->group = $group;
+    }
+
     /**
-     * Display a listing of the resource.
+     * 一覧(GET)
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param integer $groupId
+     * @return void
      */
-    public function index()
+    public function index(Request $request, int $groupId = null)
     {
-        return view('tasks/index');
+        // ユーザーの持つグループを取得
+        $groups = $this->group->getGroups(\Auth::id());
+
+        // グループがなければreturnしてしまう
+        if ($groups->isEmpty()) {
+            return view('tasks/index', [
+                'tasks' => [],
+                'groups' => [],
+                'groupId' => null
+            ]);
+        }
+
+        // デフォルトとなるgroupのidをセット
+        if ($groupId === null) {
+            $groupId = $groups->first()->id;
+        }
+
+        // 一覧用クエリ生成
+        $query = $this->taskService->makeIndexQuery($request, $groupId);
+        // 一覧データ取得
+        $tasks = $query->paginate(10);
+
+        return view('tasks/index', compact(
+            'tasks',
+            'groups',
+            'groupId'
+        ));
     }
 
     /**
