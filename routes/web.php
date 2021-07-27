@@ -29,7 +29,17 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
     // Task
-    Route::resource('/groups/{group}/tasks', TaskController::class);
+    Route::get('/groups/{group}/tasks', [TaskController::class, 'index'])
+        ->name('tasks.index');
+    Route::resource('/tasks', TaskController::class)
+        ->only([
+            'show',
+            'create',
+            'store',
+            'edit',
+            'update',
+            'destroy',
+        ]);
 
     // Tag
     Route::resource('/tag', TagController::class)

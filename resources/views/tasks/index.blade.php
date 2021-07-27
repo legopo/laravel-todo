@@ -12,20 +12,30 @@
                     {{ __('messages.group') }}
                 </div>
                 <div class="text-center my-3">
-                    <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-1 px-4 border border-green-500 hover:border-transparent rounded w-8/12 mx-auto">
-                        {{ __('messages.create') }}
-                    </button>
+                    <a href="{{ route('groups.create') }}">
+                        <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-1 px-4 border border-green-500 hover:border-transparent rounded w-8/12 mx-auto">
+                            {{ __('messages.create') }}
+                        </button>
+                    </a>
                 </div>
                 <div class="py-1">
                     @if ($groups)
                     <ul>
                         @foreach ($groups as $group)
                         <li class="flex items-center h-8 px-4 py-1 hover:bg-gray-200 @if($groupId === $group->id) bg-gray-100 @endif">
-                            @if ($groupId === $group->id)
-                            {{ $group->name }}
-                            @else
-                            <a href="{{ route('tasks.index', ['group' => $group->id]) }}">{{ $group->name }}</a>
-                            @endif
+                            <div class="w-full">
+                                @if ($groupId === $group->id)
+                                {{ $group->name }}
+                                <div class="float-right">
+                                    <a href="{{ route('groups.edit', ['group' => $groupId]) }}"><i class="fas fa-ellipsis-h"></i></a>
+                                </div>
+                                @else
+                                <a href="{{ route('tasks.index', ['group' => $group->id]) }}">{{ $group->name }}</a>
+                                <div class="float-right">
+                                    <a href="{{ route('groups.edit', ['group' => $groupId]) }}"><i class="fas fa-ellipsis-h"></i></a>
+                                </div>
+                                @endif
+                            </div>
                         </li>
                         @endforeach
                     </ul>
@@ -37,9 +47,11 @@
                     {{ __('messages.task') }}
                 </div>
                 <div class="text-center my-3">
-                    <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-1 px-4 border border-green-500 hover:border-transparent rounded w-8/12 mx-auto">
-                        {{ __('messages.create') }}
-                    </button>
+                    <a href="{{ route('tasks.create') }}">
+                        <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-1 px-4 border border-green-500 hover:border-transparent rounded w-8/12 mx-auto">
+                            {{ __('messages.create') }}
+                        </button>
+                    </a>
                 </div>
                 <div class="py-1">
                     <div class="bg-white rounded my-6">
@@ -79,16 +91,16 @@
                                         {{ $task->due_date->format('Y/m/d') }}
                                     </td>
                                     <td class="py-2 px-2 border-b border-grey-light">
-                                        <button class="bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-yellow-500 hover:border-transparent rounded mx-auto">
-                                            <a href="{{ route('tasks.edit', ['group' => $groupId, 'task' => $task->id]) }}">
+                                        <a href="{{ route('tasks.edit', ['task' => $task->id]) }}">
+                                            <button class="bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-yellow-500 hover:border-transparent rounded mx-auto">
                                                 {{ __('messages.edit') }}
-                                            </a>
-                                        </button>
-                                        <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-blue-500 hover:border-transparent rounded mx-auto">
-                                            <a href="{{ route('tasks.show', ['group' => $groupId, 'task' => $task->id]) }}">
+                                            </button>
+                                        </a>
+                                        <a href="{{ route('tasks.show', ['task' => $task->id]) }}">
+                                            <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-blue-500 hover:border-transparent rounded mx-auto">
                                                 {{ __('messages.show') }}
-                                            </a>
-                                        </button>
+                                            </button>
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach
