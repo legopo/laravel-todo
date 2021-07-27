@@ -44,4 +44,19 @@ class Group extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    /**
+     * ユーザーの持つグループを取得
+     *
+     * @param integer $userId
+     * @return object
+     */
+    public function getGroups(int $userId): object {
+        $groups = $this
+            ->where('user_id', $userId)
+            ->orderBy('id', 'asc')
+            ->get();
+
+        return $groups;
+    }
 }

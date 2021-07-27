@@ -17,12 +17,19 @@
                     </button>
                 </div>
                 <div class="py-1">
+                    @if ($groups)
                     <ul>
-                        <li class="flex items-center h-8 px-4 py-1 hover:bg-gray-200">Item 1</li>
-                        <li class="flex items-center h-8 px-4 py-1 hover:bg-gray-200">Item 2</li>
-                        <li class="flex items-center h-8 px-4 py-1 hover:bg-gray-200">Item 3</li>
-                        <li class="flex items-center h-8 px-4 py-1 hover:bg-gray-200">Item 4</li>
+                        @foreach ($groups as $group)
+                        <li class="flex items-center h-8 px-4 py-1 hover:bg-gray-200 @if($groupId === $group->id) bg-gray-100 @endif">
+                            @if ($groupId === $group->id)
+                            {{ $group->name }}
+                            @else
+                            <a href="{{ route('tasks.index', ['group' => $group->id]) }}">{{ $group->name }}</a>
+                            @endif
+                        </li>
+                        @endforeach
                     </ul>
+                    @endif
                 </div>
             </div>
             <div class="col-span-2 bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -36,75 +43,61 @@
                 </div>
                 <div class="py-1">
                     <div class="bg-white rounded my-6">
+                        @if ($tasks)
                         <table class="text-left w-full border-collapse table-fixed">
                             <thead>
                                 <tr>
-                                    <th class="w-1/2 py-2 px-2 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">{{ __('messages.name') }}</th>
-                                    <th class="w-1/8 py-2 px-2 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">{{ __('messages.is_important') }}</th>
-                                    <th class="w-1/8 py-2 px-2 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">{{ __('messages.is_completed') }}</th>
-                                    <th class="w-1/8 py-2 px-2 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">{{ __('messages.due_date') }}</th>
-                                    <th class="w-1/8 py-2 px-2 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light"></th>
+                                    <th class="w-1/2 py-2 px-2 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
+                                        @sortablelink('name', trans('messages.name'))
+                                    </th>
+                                    <th class="w-1/8 py-2 px-2 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
+                                        @sortablelink('is_important', trans('messages.is_important'))
+                                    </th>
+                                    <th class="w-1/8 py-2 px-2 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
+                                        @sortablelink('is_completed', trans('messages.is_completed'))
+                                    </th>
+                                    <th class="w-1/8 py-2 px-2 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
+                                        @sortablelink('due_date', trans('messages.due_date'))
+                                    </th>
+                                    <th class="w-1/8 py-2 px-2 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($tasks as $task)
                                 <tr class="hover:bg-grey-lighter">
-                                    <td class="py-2 px-2 border-b border-grey-light">あそぶ</td>
-                                    <td class="py-2 px-2 border-b border-grey-light">☆</td>
-                                    <td class="py-2 px-2 border-b border-grey-light">完了</td>
-                                    <td class="py-2 px-2 border-b border-grey-light">2021/1/1</td>
+                                    <td class="py-2 px-2 border-b text-sm border-grey-light">
+                                        {{ $task->name }}
+                                    </td>
+                                    <td class="py-2 px-2 border-b text-sm border-grey-light">
+                                        {{ $task->is_important_disp }}
+                                    </td>
+                                    <td class="py-2 px-2 border-b text-sm border-grey-light">
+                                        {{ $task->is_completed_disp }}
+                                    </td>
+                                    <td class="py-2 px-2 border-b text-sm border-grey-light">
+                                        {{ $task->due_date->format('Y/m/d') }}
+                                    </td>
                                     <td class="py-2 px-2 border-b border-grey-light">
-                                        <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-blue-500 hover:border-transparent rounded mx-auto">
-                                            {{ __('messages.show') }}
-                                        </button>
                                         <button class="bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-yellow-500 hover:border-transparent rounded mx-auto">
-                                            {{ __('messages.edit') }}
+                                            <a href="{{ route('tasks.edit', ['group' => $groupId, 'task' => $task->id]) }}">
+                                                {{ __('messages.edit') }}
+                                            </a>
+                                        </button>
+                                        <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-blue-500 hover:border-transparent rounded mx-auto">
+                                            <a href="{{ route('tasks.show', ['group' => $groupId, 'task' => $task->id]) }}">
+                                                {{ __('messages.show') }}
+                                            </a>
                                         </button>
                                     </td>
                                 </tr>
-                                <tr class="hover:bg-grey-lighter">
-                                    <td class="py-2 px-2 border-b border-grey-light">あそぶあそぶあそぶあそぶあそぶあそぶあそぶあそぶあそぶあそぶあそぶあそぶあそぶあそぶあそぶあそぶあそぶあそぶあそぶあそぶあそぶあそぶあそぶあそぶあそぶ</td>
-                                    <td class="py-2 px-2 border-b border-grey-light">☆</td>
-                                    <td class="py-2 px-2 border-b border-grey-light">完了</td>
-                                    <td class="py-2 px-2 border-b border-grey-light">2021/1/1</td>
-                                    <td class="py-2 px-2 border-b border-grey-light">
-                                        <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-blue-500 hover:border-transparent rounded mx-auto">
-                                            {{ __('messages.show') }}
-                                        </button>
-                                        <button class="bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-yellow-500 hover:border-transparent rounded mx-auto">
-                                            {{ __('messages.edit') }}
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-grey-lighter">
-                                    <td class="py-2 px-2 border-b border-grey-light">あそぶ</td>
-                                    <td class="py-2 px-2 border-b border-grey-light">☆</td>
-                                    <td class="py-2 px-2 border-b border-grey-light">完了</td>
-                                    <td class="py-2 px-2 border-b border-grey-light">2021/1/1</td>
-                                    <td class="py-2 px-2 border-b border-grey-light">
-                                        <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-blue-500 hover:border-transparent rounded mx-auto">
-                                            {{ __('messages.show') }}
-                                        </button>
-                                        <button class="bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-yellow-500 hover:border-transparent rounded mx-auto">
-                                            {{ __('messages.edit') }}
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-grey-lighter">
-                                    <td class="py-2 px-2 border-b border-grey-light">あそぶ</td>
-                                    <td class="py-2 px-2 border-b border-grey-light">☆</td>
-                                    <td class="py-2 px-2 border-b border-grey-light">完了</td>
-                                    <td class="py-2 px-2 border-b border-grey-light">2021/1/1</td>
-                                    <td class="py-2 px-2 border-b border-grey-light">
-                                        <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-blue-500 hover:border-transparent rounded mx-auto">
-                                            {{ __('messages.show') }}
-                                        </button>
-                                        <button class="bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-yellow-500 hover:border-transparent rounded mx-auto">
-                                            {{ __('messages.edit') }}
-                                        </button>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
+                        <div class="my-5 mx-5">
+                            {{ $tasks->appends(request()->input())->links() }}
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
