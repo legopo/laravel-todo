@@ -7,7 +7,8 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', [TaskController::class, 'index']);
+    Route::get('/', [TaskController::class, 'index'])
+        ->name('home');
 
     // User
     Route::resource('/users', UserController::class)
