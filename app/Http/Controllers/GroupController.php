@@ -17,6 +17,8 @@ class GroupController extends Controller
         Group $group,
         GroupService $groupService,
     ) {
+        $this->authorizeResource(Group::class, 'group'); // 認可
+        //
         $this->group = $group;
         $this->groupService = $groupService;
     }
