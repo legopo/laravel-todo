@@ -75,7 +75,7 @@ class Group extends Model
     }
 
     /**
-     * ユーザーの更新
+     * グループの更新
      *
      * @param EditGroupRequest $request
      * @param object $group
@@ -84,5 +84,16 @@ class Group extends Model
     public function updateGroup(EditGroupRequest $request, Group $group): void
     {
         $group->fill($request->validated())->save();
+    }
+
+    /**
+     * グループの削除
+     *
+     * @param object $group
+     * @return void
+     */
+    public function destroyGroup(Group $group): void
+    {
+        
     }
 }

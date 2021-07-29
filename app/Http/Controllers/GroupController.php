@@ -69,13 +69,15 @@ class GroupController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 削除
      *
      * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
     public function destroy(Group $group)
     {
-        //
+        $this->group->destroyGroup($group);
+
+        return redirect()->route('home');
     }
 }

@@ -42,5 +42,16 @@
                 </div>
             </div>
         </div>
+        <div class="grid grid-cols-4 max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="col-start-3 text-right my-3 w-full">
+                <form id="destory-group-form" action="{{ route('groups.destroy', ['group' => $group]) }}" method="post">
+                    @method('delete')
+                    @csrf
+                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        {{ __('messages.destroy') }}
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </x-app-layout>
