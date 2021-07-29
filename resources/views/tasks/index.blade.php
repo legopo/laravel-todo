@@ -19,7 +19,7 @@
                     </a>
                 </div>
                 <div class="py-1">
-                    @if ($groups)
+                    @if (count($groups) > 0)
                     <ul>
                         @foreach ($groups as $group)
                         <li class="flex items-center h-8 px-4 py-1 hover:bg-gray-200 @if($groupId === $group->id) bg-gray-100 @endif">
@@ -81,7 +81,7 @@
                 </div>
                 <div class="py-1">
                     <div class="bg-white rounded my-6">
-                        @if ($tasks)
+                        @if (count($tasks) > 0)
                         <table class="text-left w-full border-collapse table-fixed">
                             <thead>
                                 <tr>

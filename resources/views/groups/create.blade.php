@@ -12,21 +12,16 @@
                     {{ __('messages.create') }}
                 </div>
                 <div class="p-6">
-                    <form class="w-full">
+                    <form id="create-group-form" action="{{ route('groups.store') }}" method="post" class="w-full">
+                        @csrf
                         <div class="flex flex-wrap -mx-3 mb-3">
-                            <div class="w-full px-5">
-                                <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
-                                    {{ __('messages.name') }}
-                                </label>
-                                <input id="name" type="text" placeholder="" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                            </div>
+                            <x-group-form />
                             <div class="text-center my-3 w-full">
-                                <a href="{{ route('tasks.store') }}">
-                                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                                        {{ __('messages.create') }}
-                                    </button>
-                                </a>
+                                <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                    {{ __('messages.create') }}
+                                </button>
                             </div>
+                        </div>
                     </form>
                 </div>
             </div>

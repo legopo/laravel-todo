@@ -4,11 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateGroupRequest;
+use App\Services\GroupService;
 
 class GroupController extends Controller
 {
+    private $group;
+    private $groupService;
+
+    public function __construct(
+        Group $group,
+        GroupService $groupService,
+    ) {
+        $this->group = $group;
+        $this->groupService = $groupService;
+    }
     /**
-     * Show the form for creating a new resource.
+     * 新規追加(GET)
      *
      * @return \Illuminate\Http\Response
      */
@@ -18,14 +30,16 @@ class GroupController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 新規追加(POST)
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\CreateGroupRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateGroupRequest $request)
     {
-        //
+        $this->group->storeGroup($request);
+
+        return redirect()->route('home');
     }
 
     /**

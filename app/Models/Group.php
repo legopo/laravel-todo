@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Requests\CreateGroupRequest;
 
 class Group extends Model
 {
@@ -22,6 +23,7 @@ class Group extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'name',
     ];
 
@@ -58,5 +60,16 @@ class Group extends Model
             ->get();
 
         return $groups;
+    }
+
+    /**
+     * グループの新規追加
+     *
+     * @param CreateGroupRequest $request
+     * @return void
+     */
+    public function storeGroup(CreateGroupRequest $request): void
+    {
+        $this->create($request->validated());
     }
 }
