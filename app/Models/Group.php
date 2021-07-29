@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Requests\CreateGroupRequest;
+use App\Http\Requests\EditGroupRequest;
 
 class Group extends Model
 {
@@ -71,5 +72,17 @@ class Group extends Model
     public function storeGroup(CreateGroupRequest $request): void
     {
         $this->create($request->validated());
+    }
+
+    /**
+     * ユーザーの更新
+     *
+     * @param EditGroupRequest $request
+     * @param object $group
+     * @return void
+     */
+    public function updateGroup(EditGroupRequest $request, Group $group): void
+    {
+        $group->fill($request->validated())->save();
     }
 }

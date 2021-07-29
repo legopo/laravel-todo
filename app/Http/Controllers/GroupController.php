@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateGroupRequest;
+use App\Http\Requests\EditGroupRequest;
 use App\Services\GroupService;
 
 class GroupController extends Controller
@@ -43,26 +44,28 @@ class GroupController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 編集(GET)
      *
-     * @param  \App\Models\Group  $group
+     * @param  \App\Models\Group  $user
      * @return \Illuminate\Http\Response
      */
     public function edit(Group $group)
     {
-        return view('groups/edit');
+        return view('groups/edit', compact('group'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * 編集(PUT|PATCH)
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\EditGroupRequest  $request
      * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Group $group)
+    public function update(EditGroupRequest $request, Group $group)
     {
-        //
+        $this->group->updateGroup($request, $group);
+
+        return redirect()->route('home');
     }
 
     /**

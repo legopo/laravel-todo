@@ -4,6 +4,7 @@ return [
     'home' => 'ホーム',
     'index' => '一覧',
     'create' => '新規追加',
+    'store' => '追加',
     'show' => '詳細',
     'edit' => '編集',
     'update' => '更新',
