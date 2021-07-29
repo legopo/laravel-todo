@@ -19,7 +19,7 @@
                     </a>
                 </div>
                 <div class="py-1">
-                    @if ($groups)
+                    @if (count($groups) > 0)
                     <ul>
                         @foreach ($groups as $group)
                         <li class="flex items-center h-8 px-4 py-1 hover:bg-gray-200 @if($groupId === $group->id) bg-gray-100 @endif">
@@ -81,12 +81,12 @@
                 </div>
                 <div class="py-1">
                     <div class="bg-white rounded my-6">
-                        @if ($tasks)
+                        @if (count($tasks) > 0)
                         <table class="text-left w-full border-collapse table-fixed">
                             <thead>
                                 <tr>
                                     <th class="w-1/2 py-2 px-2 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
-                                        @sortablelink('name', trans('messages.name'))
+                                        @sortablelink('name', trans('messages.title'))
                                     </th>
                                     <th class="w-1/8 py-2 px-2 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
                                         @sortablelink('is_important', trans('messages.is_important'))

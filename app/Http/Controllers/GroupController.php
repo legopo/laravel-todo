@@ -4,11 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateGroupRequest;
+use App\Http\Requests\EditGroupRequest;
+use App\Services\GroupService;
 
 class GroupController extends Controller
 {
+    private $group;
+    private $groupService;
+
+    public function __construct(
+        Group $group,
+        GroupService $groupService,
+    ) {
+        $this->authorizeResource(Group::class, 'group'); // 認可
+        //
+        $this->group = $group;
+        $this->groupService = $groupService;
+    }
     /**
-     * Show the form for creating a new resource.
+     * 新規追加(GET)
      *
      * @return \Illuminate\Http\Response
      */
@@ -18,47 +33,53 @@ class GroupController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 新規追加(POST)
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\CreateGroupRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateGroupRequest $request)
     {
-        //
+        $this->group->storeGroup($request);
+
+        return redirect()->route('home');
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 編集(GET)
      *
-     * @param  \App\Models\Group  $group
+     * @param  \App\Models\Group  $user
      * @return \Illuminate\Http\Response
      */
     public function edit(Group $group)
     {
-        return view('groups/edit');
+        return view('groups/edit', compact('group'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * 編集(PUT|PATCH)
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\EditGroupRequest  $request
      * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Group $group)
+    public function update(EditGroupRequest $request, Group $group)
     {
-        //
+        $this->group->updateGroup($request, $group);
+
+        return redirect()->route('home');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 削除
      *
      * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
     public function destroy(Group $group)
     {
-        //
+        $this->group->destroyGroup($group);
+
+        return redirect()->route('home');
     }
 }
