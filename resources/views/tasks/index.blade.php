@@ -73,7 +73,7 @@
                     {{ __('messages.task') }}
                 </div>
                 <div class="text-center my-3">
-                    <a href="{{ route('tasks.create') }}">
+                    <a href="{{ route('tasks.create', ['group' => $groupId]) }}">
                         <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-1 px-4 border border-green-500 hover:border-transparent rounded w-8/12 mx-auto">
                             {{ __('messages.create') }}
                         </button>
@@ -117,12 +117,12 @@
                                         {{ $task->due_date->format('Y/m/d') }}
                                     </td>
                                     <td class="py-2 px-2 border-b border-grey-light">
-                                        <a href="{{ route('tasks.edit', ['task' => $task->id]) }}">
+                                        <a href="{{ route('tasks.edit', ['group' => $groupId, 'task' => $task->id]) }}">
                                             <button class="bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-yellow-500 hover:border-transparent rounded mx-auto">
                                                 {{ __('messages.edit') }}
                                             </button>
                                         </a>
-                                        <a href="{{ route('tasks.show', ['task' => $task->id]) }}">
+                                        <a href="{{ route('tasks.show', ['group' => $groupId, 'task' => $task->id]) }}">
                                             <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-blue-500 hover:border-transparent rounded mx-auto">
                                                 {{ __('messages.show') }}
                                             </button>

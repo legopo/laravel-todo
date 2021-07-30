@@ -59,22 +59,24 @@ class TaskController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 新規追加(GET)
      *
+     * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Group $group)
     {
-        return view('tasks/create');
+        return view('tasks/create', compact('group'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Group $group)
     {
         //
     }
