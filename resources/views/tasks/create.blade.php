@@ -46,12 +46,10 @@
                             </div>
                             <div class="w-full px-5">
                                 <div class="mt-2">
-                                    <div>
-                                        <label class="inline-flex items-center">
-                                            <span class="mr-2 text-gray-700 text-xs font-bold">{{ __('messages.is_important') }}</span>
-                                            <input id="is_important" type="checkbox" name="is_important" value="1" class="form-checkbox">
-                                        </label>
-                                    </div>
+                                    <label class="inline-flex items-center">
+                                        <span class="mr-2 text-gray-700 text-xs font-bold">{{ __('messages.is_important') }}</span>
+                                        <input id="is_important" type="checkbox" name="is_important" value="1" class="form-checkbox">
+                                    </label>
                                 </div>
                             </div>
                             <div class="text-center my-3 w-full">

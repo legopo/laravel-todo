@@ -99,14 +99,18 @@ class TaskController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 編集(GET)
      *
+     * @param  \App\Models\Group  $group
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function edit(Task $task)
+    public function edit(Group $group, Task $task)
     {
-        return view('tasks/edit');
+        return view('tasks/edit', compact(
+            'group',
+            'task'
+        ));
     }
 
     /**
