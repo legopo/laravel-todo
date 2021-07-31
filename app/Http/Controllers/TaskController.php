@@ -6,17 +6,21 @@ use App\Models\Task;
 use App\Models\Group;
 use Illuminate\Http\Request;
 use App\Services\TaskService;
+use App\Http\Requests\CreateTaskRequest;
 
 class TaskController extends Controller
 {
     private $taskService;
+    private $task;
     private $group;
 
     public function __construct(
         TaskService $taskService,
+        Task $task,
         Group $group,
     ) {
         $this->taskService = $taskService;
+        $this->task = $task;
         $this->group = $group;
     }
 
@@ -70,15 +74,17 @@ class TaskController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 新規追加(POST)
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\CreateTaskRequest  $request
      * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Group $group)
+    public function store(CreateTaskRequest $request, Group $group)
     {
-        //
+        $this->task->storeTask($request, $group);
+
+        return redirect()->route('home');
     }
 
     /**

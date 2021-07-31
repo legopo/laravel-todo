@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
+use App\Http\Requests\CreateTaskRequest;
 
 class Task extends Model
 {
@@ -24,6 +25,7 @@ class Task extends Model
      * @var array
      */
     protected $fillable = [
+        'group_id',
         'name',
         'due_date',
         'detail',
@@ -92,5 +94,17 @@ class Task extends Model
     public function getIsCompletedDispAttribute($value)
     {
         return $this->is_completed === 1 ? '完了' : '未完了';
+    }
+
+    /**
+     * タスクの新規追加
+     *
+     * @param CreateTaskRequest $request
+     * @param  \App\Models\Group  $group
+     * @return void
+     */
+    public function storeTask(CreateTaskRequest $request, Group $group): void
+    {
+        $this->create($request->validated());
     }
 }

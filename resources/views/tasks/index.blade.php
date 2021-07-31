@@ -114,7 +114,7 @@
                                         {{ $task->is_completed_disp }}
                                     </td>
                                     <td class="py-2 px-2 border-b text-sm border-grey-light">
-                                        {{ $task->due_date->format('Y/m/d') }}
+                                        @if ($task->due_date){{ $task->due_date->format('Y/m/d') }}@endif
                                     </td>
                                     <td class="py-2 px-2 border-b border-grey-light">
                                         <a href="{{ route('tasks.edit', ['group' => $groupId, 'task' => $task->id]) }}">

@@ -13,6 +13,7 @@
                 <div class="p-6">
                     <form id="create-task-form" action="{{ route('tasks.store', ['group' => $group->id]) }}" method="post" class="w-full">
                         @csrf
+                        <input type="hidden" name="group_id" value="{{ $group->id }}">
                         <div class="flex flex-wrap -mx-3">
                             <div class="w-full px-5">
                                 <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
@@ -27,18 +28,18 @@
                                 <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="date">
                                     {{ __('messages.due_date') }}
                                 </label>
-                                <x-datepicker />
-                                @error('due_date')
+                                @error('date')
+                                <x-datepicker date="" />
                                 <div class="text-red-700 mb-1 text-sm">{{ $message }}</div>
+                                @else
+                                <x-datepicker date="{{ old('date') }}" />
                                 @enderror
                             </div>
                             <div class="w-full px-5">
                                 <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="detail">
                                     {{ __('messages.detail') }}
                                 </label>
-                                <textarea id="detail" name="detail" rows="4" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 @error('detail') is-invalid @enderror">
-                                    {{ old('detail') }}
-                                </textarea>
+                                <textarea id="detail" name="detail" rows="4" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 @error('detail') is-invalid @enderror">{{ old('detail') }}</textarea>
                                 @error('detail')
                                 <div class="text-red-700 mb-1 text-sm">{{ $message }}</div>
                                 @enderror

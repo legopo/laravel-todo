@@ -6,7 +6,7 @@
                 {{-- <label for="datepicker" class="font-bold mb-1 text-gray-700 block">Select Date</label> --}}
                 <div class="relative">
                     <input type="hidden" name="date" x-ref="date" :value="datepickerValue" />
-                    <input type="text" x-on:click="showDatepicker = !showDatepicker" x-model="datepickerValue" x-on:keydown.escape="showDatepicker = false" class="w-full pl-4 pr-10 py-3 leading-none rounded-lg shadow-sm focus:outline-none text-gray-600 font-medium focus:ring focus:ring-blue-600 focus:ring-opacity-50" placeholder="Select date" readonly />
+                    <input type="text" x-on:click="showDatepicker = !showDatepicker" x-model="datepickerValue" nullon:keydown.escape="showDatepicker = false" class="w-full pl-4 pr-10 py-3 leading-none rounded-lg shadow-sm focus:outline-none text-gray-600 font-medium focus:ring focus:ring-blue-600 focus:ring-opacity-50" placeholder="YYYY-MM-DD"  />
 
                     <div class="absolute top-0 right-0 px-3 py-2">
                         <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -73,6 +73,7 @@
             </div>
         </div>
     </div>
+    <div id="date" data-date="{{ $date }}"></div>
     <script>
         const MONTH_NAMES = [
             "1月",
@@ -119,7 +120,12 @@
                     if (this.selectedDate) {
                         today = new Date(Date.parse(this.selectedDate));
                     } else {
-                        today = new Date();
+                        let old = document.getElementById('date');
+                        if (old.dataset.date) {
+                            today = new Date(Date.parse(old.dataset.date));
+                        } else {
+                            today = new Date();
+                        }
                     }
                     this.month = today.getMonth();
                     this.year = today.getFullYear();
