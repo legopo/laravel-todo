@@ -36,16 +36,18 @@
                                 @enderror
                             </div>
                             <div class="w-full px-5">
-                                <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="detail">
-                                    {{ __('messages.detail') }}
+                                <span class="mr-2 text-gray-700 text-xs font-bold">{{ __('messages.is_completed') }}</span>
+                                <label class="mr-4">
+                                    <input type="radio" class="form-radio" name="is_completed" value="0" @if($task->is_completed === 0) checked @endif>
+                                    <span class="ml-1 text-sm">{{ config('const.IS_COMPLETED.0') }}</span>
                                 </label>
-                                <textarea id="detail" name="detail" rows="4" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 @error('detail') is-invalid @enderror">{{ old('detail', $task->detail) }}</textarea>
-                                @error('detail')
-                                <div class="text-red-700 mb-1 text-sm">{{ $message }}</div>
-                                @enderror
+                                <label class="mr-4">
+                                    <input type="radio" class="form-radio" name="is_completed" value="1" @if($task->is_completed === 1) checked @endif>
+                                    <span class="ml-1 text-sm">{{ config('const.IS_COMPLETED.1') }}</span>
+                                </label>
                             </div>
                             <div class="w-full px-5">
-                                <div class="mt-2">
+                                <div class="my-2">
                                     <label class="inline-flex items-center">
                                         <span class="mr-2 text-gray-700 text-xs font-bold">{{ __('messages.is_important') }}</span>
                                         <input id="is_important" type="checkbox" name="is_important" value="1" class="form-checkbox" @if ($task->is_important === 1)checked @endif>
@@ -53,17 +55,13 @@
                                 </div>
                             </div>
                             <div class="w-full px-5">
-                                <div class="mt-2">
-                                    <span class="mr-2 text-gray-700 text-xs font-bold">{{ __('messages.is_completed') }}</span>
-                                    <label class="mr-4">
-                                        <input type="radio" class="form-radio" name="is_completed" value="0" @if($task->is_completed === 0) checked @endif>
-                                        <span class="ml-1 text-sm">{{ config('const.IS_COMPLETED.0') }}</span>
-                                    </label>
-                                    <label class="mr-4">
-                                        <input type="radio" class="form-radio" name="is_completed" value="1" @if($task->is_completed === 1) checked @endif>
-                                        <span class="ml-1 text-sm">{{ config('const.IS_COMPLETED.1') }}</span>
-                                    </label>
-                                </div>
+                                <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="detail">
+                                    {{ __('messages.detail') }}
+                                </label>
+                                <textarea id="detail" name="detail" rows="8" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 @error('detail') is-invalid @enderror">{{ old('detail', $task->detail) }}</textarea>
+                                @error('detail')
+                                <div class="text-red-700 mb-1 text-sm">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="text-center my-3 w-full">
                                 <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
@@ -71,7 +69,7 @@
                                 </button>
                             </div>
                             <div class="text-center my-3 w-full">
-                                <a href="{{ route('tasks.index', ['group' => $group]) }}">
+                                <a href="{{ route('tasks.show', ['group' => $group, 'task' => $task]) }}">
                                     <button type="button" class="bg-transparent hover:bg-gray-500 text-gray-700 font-semibold hover:text-white py-2 px-4 border border-gray-500 hover:border-transparent rounded">
                                         {{ __('messages.back') }}
                                     </button>
@@ -80,6 +78,17 @@
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+        <div class="grid grid-cols-4 max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="col-start-3 text-right my-3 w-full">
+                <form id="destory-group-form" action="{{ route('tasks.destroy', ['group' => $group, 'task' => $task]) }}" method="post">
+                    @method('delete')
+                    @csrf
+                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        {{ __('messages.destroy') }}
+                    </button>
+                </form>
             </div>
         </div>
     </div>

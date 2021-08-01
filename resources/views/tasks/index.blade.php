@@ -117,11 +117,6 @@
                                         @if ($task->due_date){{ $task->due_date->format('Y/m/d') }}@endif
                                     </td>
                                     <td class="py-2 px-2 border-b border-grey-light">
-                                        <a href="{{ route('tasks.edit', ['group' => $groupId, 'task' => $task->id]) }}">
-                                            <button class="bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-yellow-500 hover:border-transparent rounded mx-auto">
-                                                {{ __('messages.edit') }}
-                                            </button>
-                                        </a>
                                         <a href="{{ route('tasks.show', ['group' => $groupId, 'task' => $task->id]) }}">
                                             <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-blue-500 hover:border-transparent rounded mx-auto">
                                                 {{ __('messages.show') }}

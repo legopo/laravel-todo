@@ -36,21 +36,21 @@
                                 @enderror
                             </div>
                             <div class="w-full px-5">
-                                <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="detail">
-                                    {{ __('messages.detail') }}
-                                </label>
-                                <textarea id="detail" name="detail" rows="4" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 @error('detail') is-invalid @enderror">{{ old('detail') }}</textarea>
-                                @error('detail')
-                                <div class="text-red-700 mb-1 text-sm">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="w-full px-5">
-                                <div class="mt-2">
+                                <div class="mb-2">
                                     <label class="inline-flex items-center">
                                         <span class="mr-2 text-gray-700 text-xs font-bold">{{ __('messages.is_important') }}</span>
                                         <input id="is_important" type="checkbox" name="is_important" value="1" class="form-checkbox">
                                     </label>
                                 </div>
+                            </div>
+                            <div class="w-full px-5">
+                                <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="detail">
+                                    {{ __('messages.detail') }}
+                                </label>
+                                <textarea id="detail" name="detail" rows="8" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 @error('detail') is-invalid @enderror">{{ old('detail') }}</textarea>
+                                @error('detail')
+                                <div class="text-red-700 mb-1 text-sm">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="text-center my-3 w-full">
                                 <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
