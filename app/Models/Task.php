@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
 use App\Http\Requests\CreateTaskRequest;
+use App\Http\Requests\EditTaskRequest;
 
 class Task extends Model
 {
@@ -105,6 +106,18 @@ class Task extends Model
      */
     public function storeTask(CreateTaskRequest $request, Group $group): void
     {
-        $this->create($request->validated());
+        $this->create($request->all());
+    }
+
+    /**
+     * タスクの更新
+     *
+     * @param EditTaskRequest $request
+     * @param \App\Models\Task  $task
+     * @return void
+     */
+    public function updateTask(EditTaskRequest $request, Task $task): void
+    {
+        $task->fill($request->all())->save();
     }
 }

@@ -71,7 +71,7 @@ class Group extends Model
      */
     public function storeGroup(CreateGroupRequest $request): void
     {
-        $this->create($request->validated());
+        $this->create($request->all());
     }
 
     /**
@@ -83,7 +83,7 @@ class Group extends Model
      */
     public function updateGroup(EditGroupRequest $request, Group $group): void
     {
-        $group->fill($request->validated())->save();
+        $group->fill($request->all())->save();
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Models\Group;
 use Illuminate\Http\Request;
 use App\Services\TaskService;
 use App\Http\Requests\CreateTaskRequest;
+use App\Http\Requests\EditTaskRequest;
 
 class TaskController extends Controller
 {
@@ -114,15 +115,18 @@ class TaskController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 編集(PUT|PATCH)
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\EditTaskRequest  $request
+     * @param  \App\Models\Group  $group
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(EditTaskRequest $request,Group $group, Task $task)
     {
-        //
+        $this->task->updateTask($request, $task);
+
+        return redirect()->route('home');
     }
 
     /**
