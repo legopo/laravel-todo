@@ -89,14 +89,18 @@ class TaskController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * 詳細(GET)
      *
+     * @param  \App\Models\Group  $group
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function show(Task $task)
+    public function show(Group $group, Task $task)
     {
-        return view('tasks/show');
+        return view('tasks/show', compact(
+            'group',
+            'task',
+        ));
     }
 
     /**
