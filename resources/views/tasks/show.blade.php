@@ -14,7 +14,7 @@
                     <div class="flex flex-wrap -mx-3">
                         <div class="h-auto min-h-20 w-full px-5 mb-3 border-b rounded-none">
                             <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
-                                {{ __('messages.name') }}
+                                {{ __('messages.title') }}
                             </label>
                             <div class="block w-full text-gray-700 rounded py-3 px-4 mb-3 leading-tight">
                                 {{ $task->name }}
