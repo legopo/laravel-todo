@@ -76,6 +76,22 @@ class Task extends Model
     }
 
     /**
+     * タスクのユーザーをグループ経由で取得する
+     *
+     * @param Task $task
+     * @return integer
+     */
+    public function searchUserId(Task $task): int {
+        $userId = $task->load(['group' => function ($query) {
+            $query->select('id', 'user_id');
+        }])
+        ->group
+        ->user_id;
+
+        return $userId;
+    }
+
+    /**
      * is_importantの表示用設定
      *
      * @param  string  $value

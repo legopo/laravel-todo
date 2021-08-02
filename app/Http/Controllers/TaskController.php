@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Services\TaskService;
 use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\EditTaskRequest;
+use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
@@ -20,6 +21,8 @@ class TaskController extends Controller
         Task $task,
         Group $group,
     ) {
+        $this->authorizeResource(Task::class, 'task'); // 認可
+        //
         $this->taskService = $taskService;
         $this->task = $task;
         $this->group = $group;
@@ -34,6 +37,11 @@ class TaskController extends Controller
      */
     public function index(Request $request, int $groupId = null)
     {
+        // 認可(本人のグループ、タスクかどうか) MEMO:ここだけ個別に書く
+        if ($groupId != null && !Gate::allows('show-tasks', $groupId)) {
+            abort(403);
+        }
+
         // ユーザーの持つグループを取得
         $groups = $this->group->getGroups(\Auth::id());
 
