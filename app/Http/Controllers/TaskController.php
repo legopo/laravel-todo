@@ -6,17 +6,25 @@ use App\Models\Task;
 use App\Models\Group;
 use Illuminate\Http\Request;
 use App\Services\TaskService;
+use App\Http\Requests\CreateTaskRequest;
+use App\Http\Requests\EditTaskRequest;
+use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
     private $taskService;
+    private $task;
     private $group;
 
     public function __construct(
         TaskService $taskService,
+        Task $task,
         Group $group,
     ) {
+        $this->authorizeResource(Task::class, 'task'); // 認可
+        //
         $this->taskService = $taskService;
+        $this->task = $task;
         $this->group = $group;
     }
 
@@ -29,6 +37,11 @@ class TaskController extends Controller
      */
     public function index(Request $request, int $groupId = null)
     {
+        // 認可(本人のグループ、タスクかどうか) MEMO:ここだけ個別に書く
+        if ($groupId != null && !Gate::allows('show-tasks', $groupId)) {
+            abort(403);
+        }
+
         // ユーザーの持つグループを取得
         $groups = $this->group->getGroups(\Auth::id());
 
@@ -59,58 +72,73 @@ class TaskController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 新規追加(GET)
      *
+     * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Group $group)
     {
-        return view('tasks/create');
+        return view('tasks/create', compact('group'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 新規追加(POST)
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\CreateTaskRequest  $request
+     * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateTaskRequest $request, Group $group)
     {
-        //
+        $this->task->storeTask($request, $group);
+
+        return redirect()->route('home');
     }
 
     /**
-     * Display the specified resource.
+     * 詳細(GET)
      *
+     * @param  \App\Models\Group  $group
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function show(Task $task)
+    public function show(Group $group, Task $task)
     {
-        return view('tasks/show');
+        return view('tasks/show', compact(
+            'group',
+            'task',
+        ));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 編集(GET)
      *
+     * @param  \App\Models\Group  $group
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function edit(Task $task)
+    public function edit(Group $group, Task $task)
     {
-        return view('tasks/edit');
+        return view('tasks/edit', compact(
+            'group',
+            'task'
+        ));
     }
 
     /**
-     * Update the specified resource in storage.
+     * 編集(PUT|PATCH)
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\EditTaskRequest  $request
+     * @param  \App\Models\Group  $group
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(EditTaskRequest $request,Group $group, Task $task)
     {
-        //
+        $this->task->updateTask($request, $task);
+
+        return redirect()->route('home');
     }
 
     /**

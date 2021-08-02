@@ -28,36 +28,22 @@
                                 {{ $group->name }}
                                 <div class="float-right">
                                     <div class="hidden sm:flex sm:items-center sm:ml-6">
-                                        <x-dropdown align="right" width="48">
-                                            <x-slot name="trigger">
-                                                <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                                                    <i class="fas fa-ellipsis-h"></i>
-                                                </button>
-                                            </x-slot>
-                                            <x-slot name="content">
-                                                <x-dropdown-link :href="route('groups.edit', ['group' => $group->id])">
-                                                    {{ __('messages.group') }}{{ __('messages.edit')}}
-                                                </x-dropdown-link>
-                                            </x-slot>
-                                        </x-dropdown>
+                                        <a href="{{ route('groups.edit', ['group' => $group->id]) }}">
+                                            <button class="bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-1 px-1 text-xs border border-yellow-500 hover:border-transparent rounded mx-auto">
+                                                {{ __('messages.edit') }}
+                                            </button>
+                                        </a>
                                     </div>
                                 </div>
                                 @else
                                 <a href="{{ route('tasks.index', ['group' => $group->id]) }}">{{ $group->name }}</a>
                                 <div class="float-right">
                                     <div class="hidden sm:flex sm:items-center sm:ml-6">
-                                        <x-dropdown align="right" width="48">
-                                            <x-slot name="trigger">
-                                                <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                                                    <i class="fas fa-ellipsis-h"></i>
-                                                </button>
-                                            </x-slot>
-                                            <x-slot name="content">
-                                                <x-dropdown-link :href="route('groups.edit', ['group' => $group->id])">
-                                                    {{ __('messages.group') }}{{ __('messages.edit')}}
-                                                </x-dropdown-link>
-                                            </x-slot>
-                                        </x-dropdown>
+                                        <a href="{{ route('groups.edit', ['group' => $group->id]) }}">
+                                            <button class="bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-1 px-1 text-xs border border-yellow-500 hover:border-transparent rounded mx-auto">
+                                                {{ __('messages.edit') }}
+                                            </button>
+                                        </a>
                                     </div>
                                 </div>
                                 @endif
@@ -73,11 +59,13 @@
                     {{ __('messages.task') }}
                 </div>
                 <div class="text-center my-3">
-                    <a href="{{ route('tasks.create') }}">
+                    @if (!empty($groupId))
+                    <a href="{{ route('tasks.create', ['group' => $groupId]) }}">
                         <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-1 px-4 border border-green-500 hover:border-transparent rounded w-8/12 mx-auto">
                             {{ __('messages.create') }}
                         </button>
                     </a>
+                    @endif
                 </div>
                 <div class="py-1">
                     <div class="bg-white rounded my-6">
@@ -114,15 +102,10 @@
                                         {{ $task->is_completed_disp }}
                                     </td>
                                     <td class="py-2 px-2 border-b text-sm border-grey-light">
-                                        {{ $task->due_date->format('Y/m/d') }}
+                                        @if ($task->due_date){{ $task->due_date->format('Y/m/d') }}@endif
                                     </td>
                                     <td class="py-2 px-2 border-b border-grey-light">
-                                        <a href="{{ route('tasks.edit', ['task' => $task->id]) }}">
-                                            <button class="bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-yellow-500 hover:border-transparent rounded mx-auto">
-                                                {{ __('messages.edit') }}
-                                            </button>
-                                        </a>
-                                        <a href="{{ route('tasks.show', ['task' => $task->id]) }}">
+                                        <a href="{{ route('tasks.show', ['group' => $groupId, 'task' => $task->id]) }}">
                                             <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-1 my-1 text-xs border border-blue-500 hover:border-transparent rounded mx-auto">
                                                 {{ __('messages.show') }}
                                             </button>

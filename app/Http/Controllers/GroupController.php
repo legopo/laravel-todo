@@ -48,7 +48,7 @@ class GroupController extends Controller
     /**
      * 編集(GET)
      *
-     * @param  \App\Models\Group  $user
+     * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
     public function edit(Group $group)

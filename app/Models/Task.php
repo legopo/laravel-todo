@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
+use App\Http\Requests\CreateTaskRequest;
+use App\Http\Requests\EditTaskRequest;
 
 class Task extends Model
 {
@@ -24,6 +26,7 @@ class Task extends Model
      * @var array
      */
     protected $fillable = [
+        'group_id',
         'name',
         'due_date',
         'detail',
@@ -73,6 +76,22 @@ class Task extends Model
     }
 
     /**
+     * タスクのユーザーをグループ経由で取得する
+     *
+     * @param Task $task
+     * @return integer
+     */
+    public function searchUserId(Task $task): int {
+        $userId = $task->load(['group' => function ($query) {
+            $query->select('id', 'user_id');
+        }])
+        ->group
+        ->user_id;
+
+        return $userId;
+    }
+
+    /**
      * is_importantの表示用設定
      *
      * @param  string  $value
@@ -92,5 +111,29 @@ class Task extends Model
     public function getIsCompletedDispAttribute($value)
     {
         return $this->is_completed === 1 ? '完了' : '未完了';
+    }
+
+    /**
+     * タスクの新規追加
+     *
+     * @param CreateTaskRequest $request
+     * @param  \App\Models\Group  $group
+     * @return void
+     */
+    public function storeTask(CreateTaskRequest $request, Group $group): void
+    {
+        $this->create($request->all());
+    }
+
+    /**
+     * タスクの更新
+     *
+     * @param EditTaskRequest $request
+     * @param \App\Models\Task  $task
+     * @return void
+     */
+    public function updateTask(EditTaskRequest $request, Task $task): void
+    {
+        $task->fill($request->all())->save();
     }
 }
