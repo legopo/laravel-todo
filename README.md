@@ -22,7 +22,7 @@ alias sail='bash vendor/bin/sail'
 ```bash
 $ git clone https://github.com/legopo/laravel-todo.git
 $ cd laravel-todo
-$ mv .env.example .env
+$ cp .env.example .env
 $ sail up
 $ sail artisan migrate
 ```
