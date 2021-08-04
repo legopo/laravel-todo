@@ -26,6 +26,7 @@ $ cp .env.example .env
 $ sail up -d
 $ sail composer install
 $ sail artisan migrate
+$ sail artisan db:seed
 ```
 
 # Note
