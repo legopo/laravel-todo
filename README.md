@@ -23,10 +23,20 @@ alias sail='bash vendor/bin/sail'
 $ git clone https://github.com/legopo/laravel-todo.git
 $ cd laravel-todo
 $ cp .env.example .env
+$ composer install
 $ sail up -d
-$ sail composer install
+
+http://localhost:8080
+で起動の確認
+
 $ sail artisan migrate
+$ sail artisan db:seed
 ```
+
+email: test@test.test
+<br>
+pass : password
+
 
 # Note
 ## 機能
