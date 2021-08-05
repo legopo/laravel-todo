@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Group;
 use App\Models\Task;
 use App\Models\Tag;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -17,6 +19,19 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('users')->insert([
+            'name' => 'テストユーザー',
+            'email' => 'test@test.test',
+            'password' => Hash::make('password'),
+            'email_verified_at' => now(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $this->call([
+            GroupSeeder::class,
+            TaskSeeder::class,
+        ]);
+
         User::factory()
             ->count(3)
             ->has(
