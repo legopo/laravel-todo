@@ -34,6 +34,7 @@ $ sail artisan db:seed
 ```
 
 email: test@test.test
+<br>
 pass : password
 
 
