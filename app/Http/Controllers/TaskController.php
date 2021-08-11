@@ -11,6 +11,8 @@ use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\EditTaskRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class TaskController extends Controller
 {
@@ -96,10 +98,15 @@ class TaskController extends Controller
      */
     public function store(CreateTaskRequest $request, Group $group)
     {
-        DB::transaction(function () use ($request, $group){
-            $task = $this->task->storeTask($request, $group);
-            $this->tag->storeTags($task);
-        });
+        try {
+            DB::transaction(function () use ($request, $group){
+                $task = $this->task->storeTask($request, $group);
+                $this->tag->storeTags($task);
+            });
+        } catch (Throwable $exception) {
+            Log::error($exception->getMessage());
+            abort(500);
+        }
 
         return redirect()->route('home');
     }
@@ -142,9 +149,17 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(EditTaskRequest $request,Group $group, Task $task)
+    public function update(EditTaskRequest $request, Group $group, Task $task)
     {
-        $this->task->updateTask($request, $task);
+        try {
+            DB::transaction(function () use ($request, $task){
+                $this->task->updateTask($request, $task);
+                $this->tag->storeTags($task);
+            });
+        } catch (Throwable $exception) {
+            Log::error($exception->getMessage());
+            abort(500);
+        }
 
         return redirect()->route('home');
     }

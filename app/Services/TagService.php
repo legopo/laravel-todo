@@ -29,6 +29,16 @@ class TagService
         preg_match_all($pattern, $subject, $match);
         $tags = $match[1]; // [0] #あり、[1]#なし
 
+        /* 
+        255文字を超えるのものを削除 
+        */
+        foreach ($tags as $key => $tag) {
+            if (mb_strlen($tag) > 255) {
+                unset($tags[$key]);
+            }
+        }
+        array_values($tags);
+
         return $tags;
     }
 }

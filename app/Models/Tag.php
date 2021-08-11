@@ -44,23 +44,58 @@ class Tag extends Model
      * @param Task $task
      * @return void
      */
-    public function storeTags(Task $task): void {
+    public function storeTags(Task $task): void
+    {
         // ハッシュタグ部分を抜き出す
-        $tags = $this->tagService->extractTags($task->detail);
+        $tagService = new TagService;
+        $tags = $tagService->extractTags($task->detail);
 
-        //バリデーション入れる
+        if (!empty($tags)) {
+            // すでに存在しているタグを除いて、新規のタグ保存用の配列に作る
+            $duplicateTags = Tag::select('name')
+                ->whereIn('name', $tags)
+                ->get()
+                ->pluck('name')
+                ->toArray();
 
-        // tagsへの保存 // MEMO: ループで何回もSQLをして負担を増やさないようにバルクインサートする
-        $data = [];
-        foreach ($tags as $tag) {
-            $data[] = [
-                'name' => $tag,
-            ];
+            $newTags = array_diff($tags, $duplicateTags);
+            //
+
+            // tagsへバルクインサート
+            $data = [];
+            $now = Carbon::now()->format('Y-m-d H:i:s');
+
+            foreach ($newTags as $tag) {
+                $data[] = [
+                    'name' => $tag,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+            }
+
+            DB::table('tags')->insert($data);
+            //
         }
 
-        Tag::insert($data);
-        //
+        // 中間テーブルのsync
+        $this->syncTaskTags($task, $tags);
+    }
 
-        // 中間テーブルへのattatch?
+    /**
+     * タスク-タグ関連の同期
+     *
+     * @param Task $task
+     * @param array $tags
+     * @return void
+     */
+    public function syncTaskTags(Task $task, array $tags): void
+    {
+        $tagIds = Tag::select('id')
+            ->whereIn('name', $tags)
+            ->get()
+            ->pluck('id')
+            ->toArray();
+
+        $task->taskTags()->sync($tagIds);
     }
 }
