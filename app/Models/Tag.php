@@ -5,16 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Services\TagService;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class Tag extends Model
 {
     use HasFactory;
-
-    private $tagService;
-
-    public function __construct(TagService $tagService) {
-        $this->tagService = $tagService;
-    }
 
     /**
      * 指定テーブル
