@@ -118,11 +118,11 @@ class Task extends Model
      *
      * @param CreateTaskRequest $request
      * @param  \App\Models\Group  $group
-     * @return void
+     * @return Task
      */
-    public function storeTask(CreateTaskRequest $request, Group $group): void
+    public function storeTask(CreateTaskRequest $request, Group $group): Task
     {
-        $this->create($request->all());
+        return $this->create($request->all());
     }
 
     /**

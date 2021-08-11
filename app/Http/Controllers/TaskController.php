@@ -4,28 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\Group;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Services\TaskService;
 use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\EditTaskRequest;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
     private $taskService;
     private $task;
     private $group;
+    private $tag;
 
     public function __construct(
         TaskService $taskService,
         Task $task,
         Group $group,
+        Tag $tag,
     ) {
         $this->authorizeResource(Task::class, 'task'); // 認可
         //
         $this->taskService = $taskService;
         $this->task = $task;
         $this->group = $group;
+        $this->tag = $tag;
     }
 
     /**
@@ -91,7 +96,10 @@ class TaskController extends Controller
      */
     public function store(CreateTaskRequest $request, Group $group)
     {
-        $this->task->storeTask($request, $group);
+        DB::transaction(function () use ($request, $group){
+            $task = $this->task->storeTask($request, $group);
+            $this->tag->storeTags($task);
+        });
 
         return redirect()->route('home');
     }
