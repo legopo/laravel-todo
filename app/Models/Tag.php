@@ -33,16 +33,6 @@ class Tag extends Model
     ];
 
     /**
-     * ユーザーリレーション
-     *
-     * @return object
-     */
-    public function user(): object
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    /**
      * タスク-タグリレーション
      *
      * @return object
@@ -68,7 +58,6 @@ class Tag extends Model
         $data = [];
         foreach ($tags as $tag) {
             $data[] = [
-                'user_id' => $task->user_id,
                 'name' => $tag,
             ];
         }

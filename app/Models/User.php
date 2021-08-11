@@ -58,13 +58,4 @@ class User extends Authenticatable
         return $this->hasMany(Group::class);
     }
 
-    /**
-     * タグリレーション
-     *
-     * @return object
-     */
-    public function tags(): object
-    {
-        return $this->hasMany(Tag::class);
-    }
 }
