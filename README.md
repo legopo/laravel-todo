@@ -2,8 +2,8 @@
 
 Laravelで作るシンプルなCRUDアプリ
 
-Laravelを業務で初めて使用した時に各箇所をどのようにキャッチアップしつつ進めたかの
-まとめをissuesに書き、それをベースにtodoアプリを作成。
+Laravelを業務で初めて使用した時とその次に参加したプロジェクトで、
+各箇所をどのようにキャッチアップしつつ進めてその中で思ったことと、各機能実装のチケットを[Issues](https://github.com/legopo/laravel-todo/issues)に書き、それをベースにtodoアプリを作成。
 
 # Requirement
 
