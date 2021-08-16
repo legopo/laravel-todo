@@ -4,28 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\Group;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Services\TaskService;
 use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\EditTaskRequest;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class TaskController extends Controller
 {
     private $taskService;
     private $task;
     private $group;
+    private $tag;
 
     public function __construct(
         TaskService $taskService,
         Task $task,
         Group $group,
+        Tag $tag,
     ) {
         $this->authorizeResource(Task::class, 'task'); // 認可
         //
         $this->taskService = $taskService;
         $this->task = $task;
         $this->group = $group;
+        $this->tag = $tag;
     }
 
     /**
@@ -91,7 +98,15 @@ class TaskController extends Controller
      */
     public function store(CreateTaskRequest $request, Group $group)
     {
-        $this->task->storeTask($request, $group);
+        try {
+            DB::transaction(function () use ($request, $group){
+                $task = $this->task->storeTask($request, $group);
+                $this->tag->storeTags($task);
+            });
+        } catch (Throwable $exception) {
+            Log::error($exception->getMessage());
+            abort(500);
+        }
 
         return redirect()->route('home');
     }
@@ -134,9 +149,17 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(EditTaskRequest $request,Group $group, Task $task)
+    public function update(EditTaskRequest $request, Group $group, Task $task)
     {
-        $this->task->updateTask($request, $task);
+        try {
+            DB::transaction(function () use ($request, $task){
+                $this->task->updateTask($request, $task);
+                $this->tag->storeTags($task);
+            });
+        } catch (Throwable $exception) {
+            Log::error($exception->getMessage());
+            abort(500);
+        }
 
         return redirect()->route('home');
     }
