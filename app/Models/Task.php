@@ -81,12 +81,13 @@ class Task extends Model
      * @param Task $task
      * @return integer
      */
-    public function searchUserId(Task $task): int {
+    public function searchUserId(Task $task): int
+    {
         $userId = $task->load(['group' => function ($query) {
             $query->select('id', 'user_id');
         }])
-        ->group
-        ->user_id;
+            ->group
+            ->user_id;
 
         return $userId;
     }
@@ -111,6 +112,35 @@ class Task extends Model
     public function getIsCompletedDispAttribute($value)
     {
         return $this->is_completed === 1 ? '完了' : '未完了';
+    }
+
+    /**
+     * detailの表示用設定
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function getDetailDispAttribute()
+    {
+        $tags = Task::with('taskTags')->find($this->id)->taskTags;
+
+        $detail = $this->detail;
+        foreach ($tags as $key => $tag) {
+            /*
+            $pattern ==
+            ・aタグで囲まれてないハッシュタグ(置き換え済みを抽出するため)
+            ・空白 or # or 文末　で終わる
+
+            $replace == そのタグを持つタスクの一覧へのリンク
+            */
+            $pattern = '/(?!<a .*?>)#(' . $tag->name . ')(?<!<\/a>)(\s|#|$)/u'; // REVIEW: ちゃんとパターンを見直す必要がある
+            $replace = '<a style="color:blue;" href="#"> #' . $tag->name . ' </a>'; // TODO: タグの一覧作ったらhrefを動的にする
+
+            $detail = preg_replace($pattern, $replace, $detail);
+        }
+
+        return \Utility::htmlspecialcharsExceptA($detail);
+        
     }
 
     /**

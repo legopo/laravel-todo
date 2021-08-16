@@ -49,7 +49,7 @@
                                 {{ __('messages.detail') }}
                             </label>
                             <div class="block w-full text-gray-700 rounded py-3 px-4 mb-3 leading-tight">
-                                {{ $task->detail }}
+                                {!! $task->detail_disp !!}
                             </div>
                         </div>
                         <div class="text-center my-3 w-full">

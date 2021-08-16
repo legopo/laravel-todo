@@ -24,17 +24,18 @@ class TagService
         ＋：直前の表現を１回以上繰り返す
         u:マルチバイト（UTF-8）対応 PHPのみ
         */
-        $pattern = '/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u';
+        $pattern = '/(\s+|^)#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠])+/u';
 
         preg_match_all($pattern, $subject, $match);
-        $tags = $match[1]; // [0] #あり、[1]#なし
+        $tags = $match[0];
 
-        /* 
-        255文字を超えるのものを削除 
-        */
         foreach ($tags as $key => $tag) {
             if (mb_strlen($tag) > 255) {
+                // 255文字を超えるのものを削除
                 unset($tags[$key]);
+            } else {
+                // #と空白削除
+                $tags[$key] = trim(str_replace('#', '', $tag));
             }
         }
         array_values($tags);
