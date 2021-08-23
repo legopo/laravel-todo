@@ -33,4 +33,5 @@ return [
     'user_id' => 'ユーザーID',
     'task_id' => 'タスクID',
     'group_id' => 'グループID',
+    'current' => '現在の',
 ];

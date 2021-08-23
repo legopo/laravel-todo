@@ -11,6 +11,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('home');
 
     // User
+    Route::get('/users/{user}/edit-password', [UserController::class, 'editPassword'])
+        ->name('users.password.edit');
+    Route::patch('/users/{user}/update-password', [UserController::class, 'updatePassword'])
+        ->name('users.password.update');
     Route::resource('/users', UserController::class)
         ->only([
             'show',

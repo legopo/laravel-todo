@@ -6,6 +6,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Http\Requests\EditUserRequest;
+use App\Http\Requests\EditPasswordRequest;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -58,4 +61,28 @@ class User extends Authenticatable
         return $this->hasMany(Group::class);
     }
 
+    /**
+     *  ユーザーの更新
+     *
+     * @param EditUserRequest $request
+     * @param \App\Models\User $user
+     * @return void
+     */
+    public function updateUser(EditUserRequest $request, User $user): void
+    {
+        $user->fill($request->validated())->save();
+    }
+
+    /**
+     *  パスワードの更新
+     *
+     * @param EditPasswordRequest $request
+     * @param \App\Models\User $user
+     * @return void
+     */
+    public function updatePassword(EditPasswordRequest $request, User $user): void
+    {
+        $user->password = Hash::make($request->validated()['password']);
+        $user->save();
+    }
 }

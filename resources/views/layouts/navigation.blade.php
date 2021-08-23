@@ -34,8 +34,8 @@
                 </x-slot>
 
                 <x-slot name="content">
-                    <x-dropdown-link :href="route('users.edit', ['user' => Auth::id()])">
-                        {{ __('messages.user') }}{{ __('messages.edit')}}
+                    <x-dropdown-link :href="route('users.show', ['user' => Auth::id()])">
+                        {{ __('messages.user') }}{{ __('messages.show')}}
                     </x-dropdown-link>
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}">
