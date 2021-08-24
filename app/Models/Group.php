@@ -54,7 +54,8 @@ class Group extends Model
      * @param integer $userId
      * @return object
      */
-    public function getGroups(int $userId): object {
+    public function getGroups(int $userId): object
+    {
         $groups = $this
             ->where('user_id', $userId)
             ->orderBy('id', 'asc')
@@ -89,11 +90,11 @@ class Group extends Model
     /**
      * グループの削除
      *
-     * @param object $group
+     * @param \App\Models\Group  $group
      * @return void
      */
     public function destroyGroup(Group $group): void
     {
-        
+        $this::destroy($group->id);
     }
 }

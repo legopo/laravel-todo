@@ -166,4 +166,17 @@ class Task extends Model
     {
         $task->fill($request->all())->save();
     }
+
+    /**
+     * タスクの削除
+     *
+     * @param \App\Models\Task  $task
+     * @return void
+     */
+    public function destroyTask(Task $task): void
+    {
+        $task->taskTags()->detach();
+        $task->delete();
+    }
+
 }
