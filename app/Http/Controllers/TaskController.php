@@ -165,13 +165,23 @@ class TaskController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
+     * 削除(DELETE)
+     * 
+     * @param  \App\Models\Group  $group
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy(Group $group, Task $task)
     {
-        //
+        try {
+            DB::transaction(function () use ($task){
+                $this->task->destroyTask($task);
+            });
+        } catch (Throwable $exception) {
+            Log::error($exception->getMessage());
+            abort(500);
+        }
+
+        return redirect()->route('home');
     }
 }
