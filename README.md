@@ -5,6 +5,10 @@ Laravelで作るシンプルなCRUDアプリ
 Laravelを業務で初めて使用した時とその次に参加したプロジェクトで、
 各箇所をどのようにキャッチアップしつつ進めてその中で思ったことと、各機能実装のチケットを[Issues](https://github.com/legopo/laravel-todo/issues)に書き、それをベースにtodoアプリを作成。
 
+* 基本的に[公式](https://readouble.com/laravel/8.x/ja/)を参照する。
+* best practices, patterns, examples　とかで検索すると、こう書いた方がいい的なのがまとまったサイトがヒットしたりするのでそちらも参考にする。　初めてのキャッチアップの時には[laravel-best-practices](https://github.com/alexeymezenin/laravel-best-practices/blob/master/japanese.md) を参照。複数人で共有する前提で分量的にも内容的にもちょうどいいものだった。
+
+
 # Requirement
 
 -   PHP 8.0.6
