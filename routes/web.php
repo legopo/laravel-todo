@@ -48,12 +48,12 @@ Route::middleware(['auth'])->group(function () {
     //     ]);
 
     // Tag
-    Route::resource('/tag', TagController::class)
-        ->only(['store']);
+    Route::get('/tags/{tag}', [TagController::class, 'index'])
+        ->name('tags.index');
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return view('dashboard');
+    // })->name('dashboard');
 });
 
 require __DIR__ . '/auth.php';
