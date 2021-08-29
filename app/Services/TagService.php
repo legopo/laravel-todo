@@ -12,7 +12,7 @@ class TagService
      * @param string $subject
      * @return array
      */
-    public function extractTags(?string $subject): array
+    public static function extractTags(?string $subject): array
     {
         /*
         a-z：小文字アルファベット

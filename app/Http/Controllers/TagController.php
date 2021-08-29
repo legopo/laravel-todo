@@ -7,14 +7,23 @@ use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
+    private $tag;
+
+    public function __construct(
+        Tag $tag,
+    ) {
+        $this->tag = $tag;
+    }
     /**
-     * Store a newly created resource in storage.
+     * 一覧(GET)
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param String $tag
+     * @return void
      */
-    public function store(Request $request)
+    public function index(String $tag)
     {
-        //
+        $tasks = $this->tag->getTaggedTasks($tag, \Auth::id());
+
+        return view('tags/index', compact('tag', 'tasks'));
     }
 }

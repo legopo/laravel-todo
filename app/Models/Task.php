@@ -134,7 +134,7 @@ class Task extends Model
             $replace == そのタグを持つタスクの一覧へのリンク
             */
             $pattern = '/(?!<a .*?>)#(' . $tag->name . ')(?<!<\/a>)(\s|#|$)/u'; // REVIEW: ちゃんとパターンを見直す必要がある
-            $replace = '<a style="color:blue;" href="#"> #' . $tag->name . ' </a>'; // TODO: タグの一覧作ったらhrefを動的にする
+            $replace = '<a style="color:blue;" href="' . route('tags.index', ['tag' => $tag->name]) . '"> #' . $tag->name . ' </a>';
 
             $detail = preg_replace($pattern, $replace, $detail);
         }
